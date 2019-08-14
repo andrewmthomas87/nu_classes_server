@@ -1,0 +1,13 @@
+schema:
+- schema.graphql
+exec:
+  filename: generated/generated.go
+  package: generated
+model:
+  filename: models/models_gen.go
+  package: models
+resolver:
+  filename: resolver.go
+  type: Resolver
+autobind:
+  - github.com/andrewmthomas87/northwestern/models

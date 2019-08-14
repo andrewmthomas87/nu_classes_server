@@ -1,0 +1,39 @@
+type Term {
+    id: Int!
+    name: String!
+    startDate: String!
+    endDate: String!
+}
+
+type School {
+    symbol: String!
+    name: String!
+}
+
+type Subject {
+    symbol: String!
+    name: String!
+}
+
+type Building {
+    id: Int!
+    name: String!
+    Lat: Float!
+    Lon: Float!
+}
+
+type Room {
+    id: Int!
+    name: String!
+    building: Building!
+}
+
+type Query {
+    terms: [Term!]!
+    schools: [School!]!
+    subjects: [Subject!]!
+    subjectsByTerm(term: Int!): [Subject!]!
+    buildings: [Building!]!
+    rooms: [Room!]!
+    roomsByBuilding(building: Int!): [Room!]!
+}
