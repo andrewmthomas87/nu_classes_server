@@ -10,6 +10,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/spf13/viper"
 	"log"
+	"net/http"
 	"time"
 )
 
@@ -38,6 +39,19 @@ func signInHandler(cookieName string, googlePeople *auth.GooglePeople, auth *aut
 		}
 
 		c.SetCookie(cookieName, tokenString, int(24*time.Hour/time.Second), "/", "", false, false)
+	}
+}
+
+func devSignInHandler(cookieName string, auth *auth.AuthToken) gin.HandlerFunc {
+	return func(c *gin.Context) {
+		tokenString, err := auth.TokenStringForUser("andrewmthomas87@gmail.com")
+		if err != nil {
+			c.AbortWithStatus(400)
+			return
+		}
+
+		c.SetCookie(cookieName, tokenString, int(24*time.Hour/time.Second), "/", "", false, false)
+		c.Redirect(http.StatusTemporaryRedirect, "/")
 	}
 }
 
@@ -93,6 +107,7 @@ func main() {
 	router := gin.Default()
 
 	router.POST("/sign-in", signInHandler(viper.GetString("auth.cookieName"), googlePeople, auth))
+	router.GET("/dev", devSignInHandler(viper.GetString("auth.cookieName"), auth))
 
 	authorized := router.Group("/")
 	authorized.Use(authHandler(viper.GetString("auth.cookieName"), auth))

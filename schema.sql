@@ -97,7 +97,7 @@ CREATE TABLE course_descriptions
     course      INT,
     name        VARCHAR(1000),
     description VARCHAR(5000),
-    UNIQUE (course, name)
+    PRIMARY KEY (course)
 );
 
 CREATE TABLE course_components
